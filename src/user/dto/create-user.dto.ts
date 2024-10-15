@@ -12,8 +12,8 @@ export class CreateUserDto {
     @IsNumber()
     age: number
 
-    // @IsEnum(GenderEnum)
-    // gender: GenderEnum
+    @IsEnum(GenderEnum)
+    gender: GenderEnum
 
     @IsString()
     jobTitle: string

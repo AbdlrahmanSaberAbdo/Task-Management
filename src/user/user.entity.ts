@@ -1,4 +1,7 @@
+import { OneToMany } from "@mikro-orm/core";
+import { Collection } from "@mikro-orm/core";
 import { Entity, Enum, EnumType, PrimaryKey, Property } from "@mikro-orm/core";
+import { Task } from "../task/task.entity"
 import { v4 as uuid } from 'uuid';
 
 export enum GenderEnum {
@@ -27,4 +30,7 @@ export class User {
     
     @Property({ type: String})
     jobTitle: string;
+
+    @OneToMany(() => Task, task => task.user)
+    tasks = new Collection<Task>(this);
 }
