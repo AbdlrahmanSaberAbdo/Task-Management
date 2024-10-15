@@ -17,6 +17,21 @@ To optimize the search functionality, we utilize PostgreSQL's built-in **full-te
 ### Reference
 You can learn more about PostgreSQL's full-text search and the `tsvector` type by visiting the official PostgreSQL documentation: [PostgreSQL Full-Text Search](https://www.postgresql.org/docs/current/textsearch.html).
 
+## Prerequisites
+
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (v14 or higher recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Docker](https://www.docker.com/) (for PostgreSQL setup)
+
+
+## Environment Variables
+
+You can configure the environment variables by copying the `.env.example` file and renaming it to `.env`:
+```bash
+cp .env.example .env
+```
+
 ## Getting Started
 
 Follow these simple steps to start the project:
