@@ -1,7 +1,9 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LoadStrategy } from '@mikro-orm/core';
 
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
+import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
 
 export const DatabaseModule = {
     useFactory: (configService: ConfigService) =>
@@ -21,8 +23,17 @@ export const DatabaseModule = {
             migrations: {
                 path: 'dist/migrations',
                 pathTs: 'src/migrations',
-            },
-        }),
+                disableForeignKeys: false,
+              },
+              cache: { options: { cacheDir: './tmp/services/billing/.mikro-orm-cache' } },
+              seeder: {
+                path: 'src/misc/db/',
+                defaultSeeder: 'DatabaseSeeder',
+                glob: '!(*.d).{js,ts}',
+                emit: 'ts',
+                fileName: (className: string) => className,
+              },
+        } as MikroOrmModuleOptions),
     inject: [ConfigService],
     imports: [ConfigModule],
 };
