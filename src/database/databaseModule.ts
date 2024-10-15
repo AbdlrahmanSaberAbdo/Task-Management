@@ -1,9 +1,10 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { LoadStrategy } from '@mikro-orm/core';
 
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
 import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+import { inspect } from 'util';
+import { BadRequestException } from '@nestjs/common';
 
 export const DatabaseModule = {
     useFactory: (configService: ConfigService) =>
@@ -26,6 +27,9 @@ export const DatabaseModule = {
                 disableForeignKeys: false,
               },
               cache: { options: { cacheDir: './tmp/services/billing/.mikro-orm-cache' } },
+              findOneOrFailHandler: (entityName, where) => {
+                throw new BadRequestException(`${entityName} not found (${inspect(where)})`);
+              },
               seeder: {
                 path: 'src/misc/db/',
                 defaultSeeder: 'DatabaseSeeder',

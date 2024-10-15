@@ -14,10 +14,10 @@ export class User {
     id: string = uuid();
 
     @Property({ type: String })
-    test: string;
+    firstname: string;
 
     @Property({ type: String })
-    lastName: string;
+    lastname: string;
 
     @Property({ type: Number })
     age: number;

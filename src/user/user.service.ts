@@ -9,7 +9,10 @@ export class UserService {
   constructor(readonly entityManager: EntityManager) {}
   
   async create(createUserDto: CreateUserDto) {
-    return await this.entityManager.persistAndFlush(createUserDto)
+    const user = this.entityManager.create(User, createUserDto);
+    await this.entityManager.persistAndFlush(user)
+
+    return user
   }
 
   async findAll() {
@@ -17,20 +20,26 @@ export class UserService {
   }
 
   async findOne(id: string) {
-    return await this.entityManager.findOneOrFail(User, id)
+    return await this.entityManager.findOneOrFail(User, id, {populate: ['tasks']})
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = this.entityManager.findOneOrFail(User, id);
+    const user = await this.entityManager.findOneOrFail(User, id);
 
     this.entityManager.assign(user, updateUserDto);
 
-    return await this.entityManager.persistAndFlush(user)
+    await this.entityManager.persistAndFlush(user)
+
+    return user
   }
 
   async remove(id: string) {
     const user = await this.entityManager.findOneOrFail(User, id);
 
-    return await this.entityManager.removeAndFlush(user)
+    await this.entityManager.removeAndFlush(user)
+
+    return {
+      message: 'User deleted successfully'
+    }
   }
 }
