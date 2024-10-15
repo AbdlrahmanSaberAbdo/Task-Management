@@ -20,8 +20,14 @@ export class TaskService {
     return task
   }
 
-  async findAll() {
-    return await this.entityManager.find(Task, {})
+  async findAll(searchTerm?: string) {
+    const query = this.entityManager.createQueryBuilder(Task, 'task');
+
+    if (searchTerm) {
+      query.where(`to_tsvector('english', task.title || ' ' || task.description) @@ plainto_tsquery(?)`, [searchTerm]);
+    }
+
+    return await query.getResultList();
   }
 
   async findOne(id: string) {
