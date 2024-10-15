@@ -54,7 +54,7 @@ To make it easier to interact with the API, I have included a Postman collection
 
 ### How to Import the Postman Collection:
 
-1. Download the [Postman Collection](./postman/task-management.postman_collection.json).
+1. Download the [Postman Collection](./docs/postman/task_management.postman_collection.json).
 2. Open Postman and click on **Import** in the top-left corner.
 3. Choose the file you downloaded, and the collection will be imported into Postman.
 4. You can now use the collection to test the available API endpoints.
