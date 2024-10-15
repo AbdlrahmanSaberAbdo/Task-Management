@@ -8,7 +8,7 @@ In addition to basic task management, this project supports **full-text search**
 
 ### Why `tsvector` is Used for Searching
 
-To optimize the search functionality, we utilize PostgreSQL's built-in **full-text search** feature using the `tsvector` data type. The `tsvector` type is ideal for full-text search because it tokenizes the text into lexemes (the root forms of words), which allows for faster and more accurate searching. This approach provides several advantages over traditional string matching (e.g., using `LIKE`), including:
+To optimize the search functionality, I utilize PostgreSQL's built-in **full-text search** feature using the `tsvector` data type. The `tsvector` type is ideal for full-text search because it tokenizes the text into lexemes (the root forms of words), which allows for faster and more accurate searching. This approach provides several advantages over traditional string matching (e.g., using `LIKE`), including:
 
 - **Improved Performance**: Full-text search is faster for large datasets, as it uses specialized indexes (e.g., GIN) that allow quick lookups.
 - **Linguistic Matching**: `tsvector` recognizes word forms and can match variations (e.g., "run", "running", "ran").
@@ -50,7 +50,7 @@ Follow these simple steps to start the project:
 
 ## Postman Collection
 
-To make it easier to interact with the API, we have included a Postman collection with pre-configured requests for all endpoints. You can import this collection into Postman and start testing the API right away.
+To make it easier to interact with the API, I have included a Postman collection with pre-configured requests for all endpoints. You can import this collection into Postman and start testing the API right away.
 
 ### How to Import the Postman Collection:
 
