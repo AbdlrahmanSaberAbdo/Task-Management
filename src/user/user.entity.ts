@@ -1,4 +1,4 @@
-import { OneToMany } from "@mikro-orm/core";
+import { OneToMany, Unique } from "@mikro-orm/core";
 import { Collection } from "@mikro-orm/core";
 import { Entity, Enum, EnumType, PrimaryKey, Property } from "@mikro-orm/core";
 import { Task } from "../task/task.entity"
@@ -9,6 +9,7 @@ export enum GenderEnum {
     female = 'female'
 }
 @Entity()
+@Unique({ properties: ['email'] })
 export class User {
     @PrimaryKey({ type: 'uuid' })
     id: string = uuid();
@@ -30,6 +31,9 @@ export class User {
     
     @Property({ type: String})
     jobTitle: string;
+
+    @Property({ type: String })
+    email: string
 
     @OneToMany(() => Task, task => task.user)
     tasks = new Collection<Task>(this);

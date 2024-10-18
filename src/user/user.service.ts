@@ -19,12 +19,12 @@ export class UserService {
     return this.entityManager.find(User, {})
   }
 
-  async findOne(id: string) {
-    return await this.entityManager.findOneOrFail(User, id, {populate: ['tasks']})
+  async findOne(email: string) {
+    return await this.entityManager.findOneOrFail(User, { email }, {populate: ['tasks']})
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.entityManager.findOneOrFail(User, id);
+  async update(email: string, updateUserDto: UpdateUserDto) {
+    const user = await this.entityManager.findOneOrFail(User, { email });
 
     this.entityManager.assign(user, updateUserDto);
 
@@ -33,8 +33,8 @@ export class UserService {
     return user
   }
 
-  async remove(id: string) {
-    const user = await this.entityManager.findOneOrFail(User, id);
+  async remove(email: string) {
+    const user = await this.entityManager.findOneOrFail(User, { email });
 
     await this.entityManager.removeAndFlush(user)
 

@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Validate, validate } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Validate, validate } from "class-validator";
 import { GenderEnum } from "../user.entity";
 
 export class CreateUserDto {
@@ -6,6 +6,8 @@ export class CreateUserDto {
     @IsString()
     firstname: string;
 
+    @IsEmail()
+    email: string
 
     @IsNotEmpty({ message: 'The related entity is required.' })
     lastname: string;

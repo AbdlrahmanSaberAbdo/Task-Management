@@ -73,11 +73,29 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
         }
       },
       "name": "user",
       "schema": "public",
       "indexes": [
+        {
+          "keyName": "user_email_unique",
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "user_pkey",
           "columnNames": [

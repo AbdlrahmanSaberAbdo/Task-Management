@@ -17,18 +17,18 @@ export class UserController {
     return await this.usersService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.usersService.findOne(id);
+  @Get(':email')
+  async findOne(@Param('email') email: string) {
+    return await this.usersService.findOne(email);
   }
 
-  @Patch(':id')
-  async update(@Param('id', new ParseUUIDPipe()) id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(id, updateUserDto);
+  @Patch(':email')
+  async update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(email, updateUserDto);
   }
 
-  @Delete(':id')
-  async remove(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.usersService.remove(id);
+  @Delete(':email')
+  async remove(@Param('email') email: string) {
+    return await this.usersService.remove(email);
   }
 }
