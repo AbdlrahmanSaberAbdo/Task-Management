@@ -1,0 +1,21 @@
+meta {
+  name: task_1
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/tasks
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "title": "Create user two model",
+      "description": "This task should create user data model",
+      "from": "2024-01-01",
+      "to": "2024-02-01",
+      "user": "86ced197-0d55-4a8b-a7c4-bcc8da2a5e47"
+  }
+}

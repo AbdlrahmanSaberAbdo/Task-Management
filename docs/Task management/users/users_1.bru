@@ -1,0 +1,21 @@
+meta {
+  name: users_1
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "firstname": "Abdlrahman",
+      "lastname": "Saber",
+      "age": 20,
+      "gender": "male",
+      "jobTitle": "Software engineer"
+  }
+}
