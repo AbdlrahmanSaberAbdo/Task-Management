@@ -3,10 +3,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { User } from './user.entity';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { Pageable, PageableResponseDto, PageFactory } from 'nestjs-mikro-orm-pageable';
 
 @Injectable()
 export class UserService {
-  constructor(readonly entityManager: EntityManager) {}
+  constructor(readonly entityManager: EntityManager,
+    @InjectRepository(User) private readonly userRepository
+  ) {}
   
   async create(createUserDto: CreateUserDto) {
     const user = this.entityManager.create(User, createUserDto);
@@ -15,8 +19,10 @@ export class UserService {
     return user
   }
 
-  async findAll() {
-    return this.entityManager.find(User, {})
+  async findAll(pageable: Pageable): Promise<PageableResponseDto<User>> {
+    
+    // @ts-ignore
+    return await new PageFactory(pageable, this.userRepository).create();
   }
 
   async findOne(email: string) {

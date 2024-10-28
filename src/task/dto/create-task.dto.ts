@@ -14,7 +14,6 @@ export class CreateTaskDto {
     to: Date
 
     @IsNotEmpty()
-    @IsUUID()
     @IsEmail()
     userEmail: string
 }
