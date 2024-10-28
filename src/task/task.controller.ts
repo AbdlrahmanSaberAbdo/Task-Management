@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Pageable, PageableDefault } from 'nestjs-mikro-orm-pageable';
 
 @Controller('tasks')
 export class TaskController {
@@ -13,8 +14,8 @@ export class TaskController {
   }
 
   @Get()
-  findAll(@Query('q') searchTerm?: string) {
-    return this.taskService.findAll(searchTerm);
+  findAll(@PageableDefault() pageable: Pageable, @Query('q') searchTerm?: string) {
+    return this.taskService.findAll(pageable, searchTerm);
   }
 
   @Get(':id')

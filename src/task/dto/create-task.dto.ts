@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
+import { IsDateString, IsEmail, IsNotEmpty, IsNumber, IsString, IsUUID } from "class-validator";
 
 export class CreateTaskDto {
     @IsString()
@@ -15,5 +15,6 @@ export class CreateTaskDto {
 
     @IsNotEmpty()
     @IsUUID()
-    user: string
+    @IsEmail()
+    userEmail: string
 }
