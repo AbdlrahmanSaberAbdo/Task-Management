@@ -37,7 +37,7 @@ export class TaskService {
 
   async search(search: string, page: number, size: number) {
     const res = await this.elasticService.searchDocuments('tasks', search, ['title', 'description'], page, size, ['id'])
-    const taskIds = res.results.map((hit) => hit._source.id);
+    const taskIds = res.results.map((hit) => hit._id);
 
     const tasks = await this.entityManager.find(Task, { id: { $in: taskIds } });
 
@@ -66,11 +66,22 @@ export class TaskService {
   }
 
   async update(id: string, updateTaskDto: UpdateTaskDto) {
-    const task = this.entityManager.findOneOrFail(Task, id);
+    const task = await this.entityManager.findOneOrFail(Task, id);
 
+    updateTaskDto = {
+      ...updateTaskDto,
+      description: updateTaskDto.description || task.description,
+      title: updateTaskDto.title || task.title,
+    }
     this.entityManager.assign(task, updateTaskDto);
 
-    return await this.entityManager.persistAndFlush(task)  
+    await this.elasticService.indexDocument('tasks', id, {title: updateTaskDto.title, description: updateTaskDto.description})
+
+    await this.entityManager.persistAndFlush(task)  
+
+    return {
+      message: 'Task updated successfully',
+    }
   }
 
   async remove(id: string) {
