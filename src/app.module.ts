@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { DatabaseModule } from './database/databaseModule';
 import { TaskModule } from './task/task.module';
 import { MikroORM } from '@mikro-orm/core';
+import { ElasticModule } from './tools/elastic/elastic.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { MikroORM } from '@mikro-orm/core';
     }),
     MikroOrmModule.forRootAsync(DatabaseModule),
     UserModule,
-    TaskModule
+    TaskModule,
+    ElasticModule,
   ],
   controllers: [AppController],
   providers: [AppService],

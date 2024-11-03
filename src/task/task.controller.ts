@@ -13,9 +13,13 @@ export class TaskController {
     return this.taskService.create(createTaskDto);
   }
 
+  // @todo create RO for task
   @Get()
-  findAll(@PageableDefault() pageable: Pageable, @Query('q') searchTerm?: string) {
-    return this.taskService.findAll(pageable, searchTerm);
+  findAll( 
+    @Query('page') page: number = 1,
+    @Query('size') size: number = 10,
+    @Query('q') searchTerm: string = '') {
+    return this.taskService.search(searchTerm, page, size);
   }
 
   @Get(':id')

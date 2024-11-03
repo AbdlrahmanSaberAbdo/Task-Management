@@ -6,11 +6,14 @@ import { Task, TaskStatus } from './task.entity';
 import { User } from '../user/user.entity';
 import { Pageable, PageableResponseDto, PageFactory } from 'nestjs-mikro-orm-pageable';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { ElasticService } from 'src/tools/elastic/elastic.service';
 
 @Injectable()
 export class TaskService {
-  constructor(readonly entityManager: EntityManager,
-    @InjectRepository(Task) private readonly taskRepository
+  constructor(
+    readonly entityManager: EntityManager,
+    @InjectRepository(Task) private readonly taskRepository,
+    readonly elasticService: ElasticService
 
   ) {}
 
@@ -26,8 +29,25 @@ export class TaskService {
     task.status = TaskStatus.Planned
     
     await this.entityManager.persistAndFlush(task)
+    await this.elasticService.indexDocument('tasks', task.id, {title: task.title, description: task.description})
+
 
     return task
+  }
+
+  async search(search: string, page: number, size: number) {
+    const res = await this.elasticService.searchDocuments('tasks', search, ['title', 'description'], page, size, ['id'])
+    const taskIds = res.results.map((hit) => hit._source.id);
+
+    const tasks = await this.entityManager.find(Task, { id: { $in: taskIds } });
+
+    return {
+      total: res.total,
+      totalPages: res.totalPages,
+      currentPage: res.currentPage,
+      pageSize: res.pageSize,
+      tasks,
+  };
   }
 
   async findAll(pageable: Pageable, searchTerm?: string): Promise<PageableResponseDto<Task>> {
