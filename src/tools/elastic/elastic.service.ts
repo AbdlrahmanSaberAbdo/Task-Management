@@ -24,7 +24,7 @@ export class ElasticService {
         const from = (page - 1) * size
             const searchQuery = query.trim() === '' 
             ? { match_all: {} }  
-            : { multi_match: { query, fields } }; 
+            : { multi_match: { query, fields, operator: "and" } }; 
 
         const body = await this.client.search({
             index,
@@ -32,6 +32,7 @@ export class ElasticService {
             body: {
                 from,
                 size: size,
+                // @ts-ignore
                 query: searchQuery
             },
         });
